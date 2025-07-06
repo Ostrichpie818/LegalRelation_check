@@ -79,7 +79,7 @@ if st.session_state.json_data is not None:
         if 'SS' in current_dict:
             st.text(f"{current_dict['SS']}")
         
-        st.text(f"{current_dict['edited']}")
+        # st.text(f"{current_dict['edited']}")
             
         if 'subject-object' in current_dict:
             st.subheader("主客体")
