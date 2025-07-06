@@ -6,7 +6,7 @@ import pandas as pd
 
 # 页面配置
 st.set_page_config(
-    page_title="法律关系抽取：数据集标注工具",
+    page_title="法律关系抽取：数据标注工具",
     page_icon="📝",
     layout="centered"
 )
@@ -19,7 +19,7 @@ if "json_data" not in st.session_state:
 #     new_data = []
 
 # 页面标题
-st.title("数据标注工具")
+st.title("📝法律关系抽取：数据标注工具")
 st.markdown("""---""")
 
 # 在侧边栏添加上传功能
@@ -109,7 +109,7 @@ if st.session_state.json_data is not None:
             # 使用data_editor编辑数据
             edited_df = st.data_editor(
                 df,
-                num_rows="fixed",
+                num_rows="dynamic",
                 use_container_width=True,
                 key=f"subject_object_editor_{st.session_state.current_item}"
             )
