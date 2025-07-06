@@ -6,7 +6,7 @@ import pandas as pd
 
 # 页面配置
 st.set_page_config(
-    page_title="JSON 数据编辑器",
+    page_title="法律关系抽取：数据集标注工具",
     page_icon="📝",
     layout="centered"
 )
@@ -79,7 +79,6 @@ if st.session_state.json_data is not None:
         if 'SS' in current_dict:
             st.text(f"{current_dict['SS']}")
         
-        # st.text(f"{current_dict['edited']}")
             
         if 'subject-object' in current_dict:
             st.subheader("主客体")
@@ -119,6 +118,8 @@ if st.session_state.json_data is not None:
         # 在初始化session状态部分添加
         if "new_data" not in st.session_state:
             st.session_state.new_data = []
+        if "new_id" not in st.session_state:
+            st.session_state.new_id = set()
         
         # 修改保存按钮部分的代码
         if st.button("保存修改"):
@@ -138,11 +139,13 @@ if st.session_state.json_data is not None:
             new_item['edited'] = 1
             new_item['subject-object'] = edited_subject_object
             st.session_state.new_data.append(new_item)
+            st.session_state.new_id.add(st.session_state.current_item)
             st.session_state.json_data[st.session_state.current_item]['edited'] = 1
             st.success("修改已保存！")
 
 with st.sidebar:
     st.markdown("""---""")
+    st.text(f"已完成的标注id：{list(set(st.session_state.new_id))}")
     st.subheader("下载标注记录文件")
     json_str = json.dumps(st.session_state.new_data, ensure_ascii=False, indent=2)
     st.download_button(
@@ -151,25 +154,3 @@ with st.sidebar:
         file_name="edited_data.json",
         mime="application/json"
     )
-
-    # 提交按钮
-    # submitted = st.form_submit_button("保存修改")
-    # if submitted:
-    #     try:
-    #         # 处理列表类型的字段
-    #         for key in st.session_state.edited_data:
-    #             if isinstance(st.session_state.json_data[key], list):
-    #                 st.session_state.edited_data[key] = json.loads(st.session_state.edited_data[key])
-            
-    #         st.session_state.json_data = st.session_state.edited_data.copy()
-    #         st.success("修改已保存！")
-    #     except Exception as e:
-    #         st.error(f"保存失败: {str(e)}")
-
-    # 下载功能
-    
-
-    # 显示原始JSON
-    # st.markdown("""---""")
-    # with st.expander("查看原始JSON"):
-    #     st.json(st.session_state.json_data)
