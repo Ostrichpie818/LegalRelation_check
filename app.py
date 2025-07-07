@@ -127,25 +127,29 @@ if st.session_state.json_data is not None:
         # 修改保存按钮部分的代码
         st.warning(f"当前数据id：{st.session_state.current_item}，请注意保存")
         if st.button("**保存修改**"):
-            new_item = {}
-            edited_subject_object = {}
-            for _, row in edited_df.iterrows():
-                key = row['关系名称']
-                value = {
-                    "主体": row['主体'],
-                    "客体": row['客体'],
-                    "内容": row['内容']
-                }
-                edited_subject_object[key] = edited_subject_object.get(key,[])
-                edited_subject_object[key].append(value)
-            new_item['uniqid'] = current_dict['uniqid']
-            new_item['timestamp'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
-            new_item['edited'] = 1
-            new_item['subject-object'] = edited_subject_object
-            st.session_state.new_data.append(new_item)
-            st.session_state.new_id.add(st.session_state.current_item)
-            st.session_state.json_data[st.session_state.current_item]['edited'] = 1
-            st.success("修改已保存！")
+            if not df.equals(edited_df):
+                new_item = {}
+                edited_subject_object = {}
+                for _, row in edited_df.iterrows():
+                    key = row['关系名称']
+                    value = {
+                        "主体": row['主体'],
+                        "客体": row['客体'],
+                        "内容": row['内容']
+                    }
+                    edited_subject_object[key] = edited_subject_object.get(key,[])
+                    edited_subject_object[key].append(value)
+                new_item['uniqid'] = current_dict['uniqid']
+                new_item['timestamp'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
+                new_item['edited'] = 1
+                new_item['subject-object'] = edited_subject_object
+                st.session_state.new_data.append(new_item)
+                st.session_state.new_id.add(st.session_state.current_item)
+                st.session_state.json_data[st.session_state.current_item]['edited'] = 1
+                st.success("修改已保存！")
+            else:
+                st.warning("⚠️⚠️未做修改⚠️⚠️")
+                
 
 with st.sidebar:
     st.markdown("""---""")
