@@ -14,9 +14,6 @@ st.set_page_config(
 # 初始化session状态
 if "json_data" not in st.session_state:
     st.session_state.json_data = None
-# if "edited_data" not in st.session_state:
-#     # st.session_state.edited_data = None
-#     new_data = []
 
 # 页面标题
 st.title("📝法律关系抽取：数据标注工具")
@@ -56,6 +53,7 @@ with st.sidebar:
             st.session_state.current_page = 0
             st.session_state.current_item = 0
         
+        st.markdown(f"**总数据条数**: {len(st.session_state.json_data)}")
         st.session_state.current_item = st.number_input(
             "数据编号", 
             min_value=0, 
