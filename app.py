@@ -24,9 +24,9 @@ st.markdown("""---""")
 
 # 在侧边栏添加上传功能
 with st.sidebar:
-    st.header("📂 文件上传")
+    st.header("📂 文件处理")
     # 默认文件路径
-    DEFAULT_JSON_PATH = "./test_subject_edit.json"
+    DEFAULT_JSON_PATH = "./test1_v2.json"
     
     # 上传JSON文件
     uploaded_file = st.file_uploader("上传JSON文件", type=["json"], key="json_uploader")
@@ -72,14 +72,19 @@ with st.sidebar:
 
 # 在显示和编辑JSON内容部分修改
 if st.session_state.json_data is not None:
-    st.subheader("事实内容")
     
     if isinstance(st.session_state.json_data, list) and len(st.session_state.json_data) > 0:
         
-        if 'SS' in current_dict:
-            st.text(f"{current_dict['SS']}")
+        st.subheader(f"数据id：{st.session_state.current_item}")
         
-            
+        if 'TITLE' in current_dict:
+            st.subheader(f"标题")
+            st.text(f"{current_dict['TITLE']}")
+        
+        if 'SS' in current_dict:
+            st.subheader(f"事实")
+            st.text(f"{current_dict['SS']}")
+         
         if 'subject-object' in current_dict:
             st.subheader("主客体")
             subject_object = current_dict['subject-object']
@@ -122,7 +127,8 @@ if st.session_state.json_data is not None:
             st.session_state.new_id = set()
         
         # 修改保存按钮部分的代码
-        if st.button("保存修改"):
+        st.warning(f"当前数据id：{st.session_state.current_item}，请注意保存")
+        if st.button("**保存修改**"):
             new_item = {}
             edited_subject_object = {}
             for _, row in edited_df.iterrows():
@@ -145,11 +151,12 @@ if st.session_state.json_data is not None:
 
 with st.sidebar:
     st.markdown("""---""")
-    st.text(f"已完成的标注id：{list(set(st.session_state.new_id))}")
-    st.subheader("下载标注记录文件")
+    st.success(f"已完成的标注id：{list(set(st.session_state.new_id))}")
+    st.error("⚠️⚠️请在完成标记后下载标记结果文件⚠️⚠️")
+    # st.subheader("下载标注记录文件")
     json_str = json.dumps(st.session_state.new_data, ensure_ascii=False, indent=2)
     st.download_button(
-        label="下载标注记录文件",
+        label="下载标注结果文件",
         data=json_str,
         file_name="edited_data.json",
         mime="application/json"
