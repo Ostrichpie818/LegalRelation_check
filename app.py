@@ -23,7 +23,7 @@ st.markdown("""---""")
 with st.sidebar:
     st.header("📂 文件处理")
     # 默认文件路径
-    DEFAULT_JSON_PATH = "./test1_v3.json"
+    DEFAULT_JSON_PATH = "./test1_v4.json"
     
     # 上传JSON文件
     uploaded_file = st.file_uploader("上传JSON文件", type=["json"], key="json_uploader")
@@ -79,15 +79,26 @@ if st.session_state.json_data is not None:
             st.subheader(f"标题")
             st.text(f"{current_dict['TITLE']}")
         
-        if 'SS' in current_dict:
-            st.subheader(f"事实")
+        if 'ss' in current_dict:
+            st.subheader(f"法庭认定事实")
             # st.text(f"{current_dict['SS']}")
-            content_lines = len(current_dict['SS'])
-            print(int(content_lines*0.6))
+            content_lines = len(current_dict['ss'])
             edited_ss = st.text_area(
                 "编辑事实内容", 
-                value=current_dict['SS'],
+                value=current_dict['ss'],
                 key=f"ss_editor_{st.session_state.current_item}",
+                label_visibility='hidden',
+                height=int(content_lines)
+            )
+        
+        if 'yj' in current_dict:
+            st.subheader(f"法庭意见")
+            # st.text(f"{current_dict['YJ']}")
+            content_lines = len(current_dict['yj'])
+            edited_yj = st.text_area(
+                "编辑意见内容", 
+                value=current_dict['yj'],
+                key=f"yj_editor_{st.session_state.current_item}",
                 label_visibility='hidden',
                 height=int(content_lines*0.7)
             )
