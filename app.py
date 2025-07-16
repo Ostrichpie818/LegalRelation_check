@@ -88,7 +88,7 @@ if st.session_state.json_data is not None:
                 value=current_dict['ss'],
                 key=f"ss_editor_{st.session_state.current_item}",
                 label_visibility='hidden',
-                height=int(content_lines)
+                height=max(100,int(content_lines))
             )
         
         if 'yj' in current_dict:
@@ -100,7 +100,7 @@ if st.session_state.json_data is not None:
                 value=current_dict['yj'],
                 key=f"yj_editor_{st.session_state.current_item}",
                 label_visibility='hidden',
-                height=int(content_lines*0.7)
+                height=max(100,int(content_lines*0.7))
             )
          
         if 'subject-object' in current_dict:
