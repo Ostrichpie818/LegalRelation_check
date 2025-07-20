@@ -122,7 +122,7 @@ if st.session_state.json_data is not None:
                                 if '内容' not in row:
                                     row['内容'] = ''
                             else:
-                                continue
+                                row = {"主体": "", "客体": "", "内容": ""}
                         except:
                             row = {"主体": "", "客体": "", "内容": v}
                         row['关系名称'] = key
