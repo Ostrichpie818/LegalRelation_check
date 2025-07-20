@@ -88,7 +88,7 @@ if st.session_state.json_data is not None:
                 value=current_dict['ss'],
                 key=f"ss_editor_{st.session_state.current_item}",
                 label_visibility='hidden',
-                height=max(100,int(content_lines))
+                height=int(content_lines)
             )
         
         if 'yj' in current_dict:
@@ -100,7 +100,7 @@ if st.session_state.json_data is not None:
                 value=current_dict['yj'],
                 key=f"yj_editor_{st.session_state.current_item}",
                 label_visibility='hidden',
-                height=max(100,int(content_lines*0.7))
+                height=int(content_lines*0.7)
             )
          
         if 'subject-object' in current_dict:
@@ -117,6 +117,8 @@ if st.session_state.json_data is not None:
                         try:
                             if v != '':
                                 row = json.loads(v)
+                                row['主体'] = str(row.get('主体', ''))
+                                row['客体'] = str(row.get('客体', ''))
                                 if '内容' not in row:
                                     row['内容'] = ''
                             else:
@@ -128,7 +130,6 @@ if st.session_state.json_data is not None:
             
             df = pd.DataFrame(data)
             df = df[['关系名称', '主体', '客体', '内容']]  # 调整列顺序
-            
             # 使用data_editor编辑数据
             edited_df = st.data_editor(
                 df,
