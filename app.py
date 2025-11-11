@@ -23,7 +23,7 @@ st.markdown("""---""")
 with st.sidebar:
     st.header("📂 文件处理")
     # 默认文件路径
-    DEFAULT_JSON_PATH = "./test1_v4.json"
+    DEFAULT_JSON_PATH = "./sampled_300_new.json"
     
     # 上传JSON文件
     uploaded_file = st.file_uploader("上传JSON文件", type=["json"], key="json_uploader")
