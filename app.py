@@ -23,7 +23,7 @@ st.markdown("""---""")
 with st.sidebar:
     st.header("📂 文件处理")
     # 默认文件路径
-    DEFAULT_JSON_PATH = "./sampled_300_new.json"
+    DEFAULT_JSON_PATH = "./result2_300.json"
     
     # 上传JSON文件
     uploaded_file = st.file_uploader("上传JSON文件", type=["json"], key="json_uploader")
@@ -88,7 +88,7 @@ if st.session_state.json_data is not None:
                 value=current_dict['ss'],
                 key=f"ss_editor_{st.session_state.current_item}",
                 label_visibility='hidden',
-                height=max(100,int(content_lines))
+                height=int(content_lines)
             )
         
         if 'yj' in current_dict:
@@ -100,7 +100,7 @@ if st.session_state.json_data is not None:
                 value=current_dict['yj'],
                 key=f"yj_editor_{st.session_state.current_item}",
                 label_visibility='hidden',
-                height=max(100,int(content_lines*0.7))
+                height=int(content_lines*0.7)
             )
          
         if 'subject-object' in current_dict:
@@ -110,8 +110,10 @@ if st.session_state.json_data is not None:
             # 将subject-object转换为DataFrame格式
             data = []
             for key, value in subject_object.items():
-                if isinstance(value, dict):
-                    row = value.copy()
+                if isinstance(value, list):
+                    for d in value:
+                        d['关系名称'] = key
+                        data.append(d)
                 else:
                     for v in value.replace("'",'"').split("\n"):
                         try:
